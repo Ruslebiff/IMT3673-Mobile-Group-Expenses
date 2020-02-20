@@ -124,8 +124,13 @@ class MainActivityTest {
         // and the MainActivity should be back
         onView(withId(R.id.tbl_expenses)).check(matches(isDisplayed()))
 
+        // TODO: Extra credits for robust and universal test implementation
+        // for finding a text in the table. Note, it requires custom Matcher
+        // and the ability to traverse ALL table children without knowing their IDs
+
         // we should have Alice in the table
-        onView(withId(R.id.tbl_expenses)).check(matches(withText(data.person)))
+        //onView(withId(R.id.tbl_expenses))
+        // .check(?????(data.person).matches(isDisplayed()))
     }
 
 
