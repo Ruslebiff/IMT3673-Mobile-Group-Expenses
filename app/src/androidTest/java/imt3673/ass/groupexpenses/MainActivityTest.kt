@@ -124,13 +124,12 @@ class MainActivityTest {
         // and the MainActivity should be back
         onView(withId(R.id.tbl_expenses)).check(matches(isDisplayed()))
 
-        // TODO: Extra credits for robust and universal test implementation
-        // for finding a text in the table. Note, it requires custom Matcher
-        // and the ability to traverse ALL table children without knowing their IDs
-
         // we should have Alice in the table
-        //onView(withId(R.id.tbl_expenses))
-        // .check(?????(data.person).matches(isDisplayed()))
+        // Gets all children of tbl_expenses that has the text alice in them (should be one)
+        // Then checks if it is displayed
+        // Does not check if it's a TextView in case someone doesn't use TextViews for whatever reason
+        onView(allOf(withText(data.person), isDescendantOfA(withId(R.id.tbl_expenses))))
+            .check(matches(isDisplayed()))
     }
 
 
