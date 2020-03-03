@@ -4,8 +4,6 @@ import kotlin.math.exp
 
 /**
  * Represents all the expenses of the group of people.
- *
- * TODO implement the functionality of this class
  */
 class Expenses {
 
