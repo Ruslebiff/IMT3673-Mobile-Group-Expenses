@@ -8,7 +8,7 @@ package imt3673.ass.groupexpenses
 class Expenses {
 
     // NOTE: Expenses MUST have a default, non-argument constructor.
-
+    val listOfExpenses = mutableListOf<SingleExpense>()
 
     // Adds new expense to the expenses list.
     // If the Person does not exist in the expenses,
@@ -20,7 +20,23 @@ class Expenses {
     // No duplicates.
     // TODO implement the method
     fun add(expense: SingleExpense): Boolean {
-        return true
+        val name : SingleExpense? = listOfExpenses.find{it.person == expense.person}
+
+        // if person don't exist, add to list and return false
+        if (name == null) {
+            listOfExpenses.add(expense)
+            return false
+        }
+
+        // If the Person already exist in the expenses,
+        // the new expense amount is added to the person's existing amount and true is returned.
+        if (name != null) {
+            val newPerson=SingleExpense(expense.person, expense.amount + name.amount, expense.description)
+            listOfExpenses.add(newPerson)   // add to list
+            listOfExpenses.remove(name)     // remove duplicate
+            return true
+        }
+        return false
     }
 
     // Replaces the expense for a given person
