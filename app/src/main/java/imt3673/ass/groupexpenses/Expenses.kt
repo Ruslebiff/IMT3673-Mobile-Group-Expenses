@@ -68,9 +68,14 @@ class Expenses {
 
     // Returns the amount of expenses for a given person.
     // If the person does not exist, the function returns failed result.
-    // TODO implement the method
     fun amountFor(person: String): Result<Long> {
-        return Result.success(0)
+        val personInList : SingleExpense? = listOfExpenses.find{it.person == person}
+
+        return if (personInList == null) {
+            Result.failure(Exception("Person does not exist"))
+        } else {
+            Result.success(personInList.amount)
+        }
     }
 
     // Returns the list of all expenses.
