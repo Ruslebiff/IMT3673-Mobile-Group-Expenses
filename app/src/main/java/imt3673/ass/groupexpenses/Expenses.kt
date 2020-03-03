@@ -38,10 +38,18 @@ class Expenses {
     // Replaces the expense for a given person
     // This method is similar to #addExpense, however, instead of adding
     // the claim amount to the existing person, it replaces it instead.
-    // TODO implement the method
     fun replace(expense: SingleExpense): Boolean {
+        val old : SingleExpense? = listOfExpenses.find{it.person == expense.person}
 
-        return true
+        return if (old == null) {
+            listOfExpenses.add(expense)
+            false // person was not found in list
+        } else {
+            val new = SingleExpense(expense.person, expense.amount, expense.description)
+            listOfExpenses.remove(old)
+            listOfExpenses.add(new)
+            true
+        }
     }
 
     // Removes an expense association for this person.
@@ -51,7 +59,7 @@ class Expenses {
         val personInList : SingleExpense? = listOfExpenses.find{it.person == person}
 
         return if (personInList == null) {
-            false
+            false // person was not found in list
         } else {
             listOfExpenses.remove(personInList)
             true
