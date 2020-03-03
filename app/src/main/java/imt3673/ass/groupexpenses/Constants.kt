@@ -1,5 +1,7 @@
 package imt3673.ass.groupexpenses
 
+import java.util.*
+
 /**
  * Keep all the package level functions and constants here.
  * Keep public classes in their respective files, one per file, with consistent
@@ -14,9 +16,39 @@ package imt3673.ass.groupexpenses
  * See wiki and tests for details.
  */
 fun sanitizeName(name: String): String {
-    // TODO implement the logic
+    var input = name
 
-    return name
+    // Make all lowercase
+    input = input.toLowerCase(Locale.getDefault())
+
+    // Make sure input is only letters, hyphen or space
+    input = input.filter { it.isLetter() || it == '-' || it == ' ' || it == '\t'}
+
+    // Split by hyphen
+    var inputArray = input.split('-')
+
+    // Add hyphen back with capitalized letter
+    inputArray = inputArray.map { it.capitalize() }
+    input = inputArray.joinToString(separator = '-'.toString())
+
+    // Reduce spaces and \t to just one space character
+    input = input.replace("\\s+".toRegex(), " ")
+
+    // Trim spaces before and after name
+    input = input.trim()
+
+    // Split by space
+    inputArray = input.split(' ')
+
+    // Capitalize
+    inputArray = inputArray.map { it.capitalize() }
+
+    // Assemble again
+    input = inputArray.joinToString(separator = ' '.toString(), limit = 2, truncated = "")
+    input = input.trim()
+
+    // Return
+    return input
 }
 
 /**
