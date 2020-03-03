@@ -1,5 +1,7 @@
 package imt3673.ass.groupexpenses
 
+import kotlin.math.exp
+
 /**
  * Represents all the expenses of the group of people.
  *
@@ -8,7 +10,7 @@ package imt3673.ass.groupexpenses
 class Expenses {
 
     // NOTE: Expenses MUST have a default, non-argument constructor.
-    val listOfExpenses = mutableListOf<SingleExpense>()
+    private val listOfExpenses = mutableListOf<SingleExpense>()
 
     // Adds new expense to the expenses list.
     // If the Person does not exist in the expenses,
@@ -18,25 +20,19 @@ class Expenses {
     // There should only be
     // one instance of SingleExpense associated with a single person in the expenses.
     // No duplicates.
-    // TODO implement the method
     fun add(expense: SingleExpense): Boolean {
-        val name : SingleExpense? = listOfExpenses.find{it.person == expense.person}
+        val old : SingleExpense? = listOfExpenses.find{it.person == expense.person}
 
-        // if person don't exist, add to list and return false
-        if (name == null) {
+        return if (old == null) {
             listOfExpenses.add(expense)
-            return false
+            false
+        } else {
+            val new = SingleExpense(expense.person, expense.amount +
+                    old.amount, old.description.plus(", ").plus(expense.description))
+            listOfExpenses.remove(old)
+            listOfExpenses.add(new)
+            true
         }
-
-        // If the Person already exist in the expenses,
-        // the new expense amount is added to the person's existing amount and true is returned.
-        if (name != null) {
-            val newPerson=SingleExpense(expense.person, expense.amount + name.amount, expense.description)
-            listOfExpenses.add(newPerson)   // add to list
-            listOfExpenses.remove(name)     // remove duplicate
-            return true
-        }
-        return false
     }
 
     // Replaces the expense for a given person
@@ -51,9 +47,15 @@ class Expenses {
     // Removes an expense association for this person.
     // If the person exists in the expenses, it returns true.
     // Otherwise, it returns false.
-    // TODO implement the method
     fun remove(person: String): Boolean {
-        return false
+        val personInList : SingleExpense? = listOfExpenses.find{it.person == person}
+
+        return if (personInList == null) {
+            false
+        } else {
+            listOfExpenses.remove(personInList)
+            true
+        }
     }
 
     // Returns the amount of expenses for a given person.
@@ -65,9 +67,8 @@ class Expenses {
 
     // Returns the list of all expenses.
     // If no expenses have been added yet, the function returns an empty list.
-    // TODO implement the method
     fun allExpenses(): List<SingleExpense> {
-        return listOf()
+        return this.listOfExpenses
     }
 
     // Makes a deep copy of this expense instance
