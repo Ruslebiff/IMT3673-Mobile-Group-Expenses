@@ -114,12 +114,16 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
 
                 if (payMap[payerKey] == receiveMap[receiverKey]){             // same amount
                     println("Same Amount")
-                    println("AAAA" + payMap)
+
                     transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
                     payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
-                    println("BBBB" + payMap)
-                    receiveMap.remove(receiverKey)
-                    println("CCCC")
+
+                    var oldReceiverKey = receiverKey
+                    if (receiveIterator.hasNext()){
+                        receiverKey = receiveIterator.next().key
+                    }
+                    receiveMap.remove(oldReceiverKey)
+
                     break
                 } else if (receiveMap[receiverKey]!! > payMap[payerKey]!!) {      // receiver need more than payer has
                     println("receiver more")
@@ -128,13 +132,22 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                     receiveMap[receiverKey] = receiveMap[receiverKey]!!.minus(payMap[payerKey]!!)
                     payMap[payerKey] = payMap[payerKey]!!.minus(payMap[payerKey]!!)
 
+
                     break
                 } else {                                        // receiver need less than payer has
                     println("receiver less")
 
                     transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
                     payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
-                    receiveMap.remove(receiverKey)
+                    var oldReceiverKey = receiverKey
+                    if (receiveIterator.hasNext()){
+                        receiverKey = receiveIterator.next().key
+                    }
+                    receiveMap.remove(oldReceiverKey)
+
+                    println("NEW receiver key = " + receiverKey)
+                    println("PAYMAP " + payMap)
+                    println("RECMAP " + receiveMap)
                 }
             }
         }
@@ -143,8 +156,6 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
         if (payIterator.hasNext()){
             payerKey = payIterator.next().key
         }
-
-        println("new payerkey: " + payerKey)
         payMap.remove(oldPayerKey)
 
         println("\npayMap now: " + payMap)
