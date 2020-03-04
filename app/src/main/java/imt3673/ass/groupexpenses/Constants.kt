@@ -58,18 +58,113 @@ fun sanitizeName(name: String): String {
 fun calculateSettlement(expenses: Expenses): List<Transaction> {
     // TODO implement the logic
 
-    // dummy implementation for a simple single case
-    // Alice -> 20
-    // Bob -> 20
-    // Charlie -> 30
-    // David -> 50
+    var expensesList = expenses.allExpenses()
+    if (expensesList.size < 2) return listOf()
 
-    // Only one resonable solution:
+    var personsList = expensesList.map{it.person}
+    var transactionsList = mutableListOf<Transaction>()
+    var paidMap = mutableMapOf<String, Long>()
+
+    var totalAmount: Long = 0
+    val totalPersons = expensesList.size
+
+    expensesList.forEach{
+        totalAmount += it.amount.toLong()
+        paidMap[it.person] = it.amount
+    }
+
+    var totalPerPerson = (totalAmount / totalPersons)
+
+
+    // What each person owes
+    var owesMap = mutableMapOf<String, Long>()
+    paidMap.forEach{
+        owesMap[it.key] = (totalPerPerson.minus(it.value))
+    }
+
+    var payMap = mutableMapOf<String, Long>()           // should pay receivers
+    var receiveMap = mutableMapOf<String, Long>()       // should receive payment from payers
+
+    owesMap.forEach{
+        if (it.value > 0L){         // person owes money to someone else
+           payMap[it.key] = it.value
+        } else if (it.value < 0L) { // person should get money back
+            receiveMap[it.key] = it.value*(-1)
+        }
+    }
+
+    println("Pay: " + payMap)
+    println("Receive: " + receiveMap)
+    println("\n")
+    var payIterator = payMap.iterator()
+    var receiveIterator = receiveMap.iterator()
+    var receiverKey = receiveIterator.next().key
+    var payerKey = payIterator.next().key
+
+    while (payMap.isNotEmpty()){
+        println("PayerKey: "+payerKey)
+        while(payMap[payerKey]!! > 0L){
+            println("payMap[payerKey] :" + payMap[payerKey])
+            while (receiveMap.isNotEmpty()) {
+                println("receivemap is not empty")
+                if (receiveIterator.hasNext()){
+                    receiverKey = receiveIterator.next().key
+                }
+                println("ReceiverKey: " + receiverKey)
+
+                if (payMap[payerKey] == receiveMap[receiverKey]){             // same amount
+                    println("Same Amount")
+                    println("AAAA" + payMap)
+                    transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
+                    payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
+                    println("BBBB" + payMap)
+                    receiveMap.remove(receiverKey)
+                    println("CCCC")
+                    break
+                } else if (receiveMap[receiverKey]!! > payMap[payerKey]!!) {      // receiver need more than payer has
+                    println("receiver more")
+
+                    transactionsList.add(Transaction(payerKey, receiverKey, payMap[payerKey]!!))
+                    receiveMap[receiverKey] = receiveMap[receiverKey]!!.minus(payMap[payerKey]!!)
+                    payMap[payerKey] = payMap[payerKey]!!.minus(payMap[payerKey]!!)
+
+                    break
+                } else {                                        // receiver need less than payer has
+                    println("receiver less")
+
+                    transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
+                    payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
+                    receiveMap.remove(receiverKey)
+                }
+            }
+        }
+
+        var oldPayerKey = payerKey
+        if (payIterator.hasNext()){
+            payerKey = payIterator.next().key
+        }
+
+        println("new payerkey: " + payerKey)
+        payMap.remove(oldPayerKey)
+
+        println("\npayMap now: " + payMap)
+        println("receiveMap now: " + receiveMap)
+        println("Trans list now: " + transactionsList +"\n")
+    }
+
+//
+//     dummy implementation for a simple single case
+//     Alice -> 20
+//     Bob -> 20
+//     Charlie -> 30
+//     David -> 50
+
+    // Only one reasonable solution:
     // Alice to David -> 10
     // Bob to David -> 10
-    return listOf(
-        Transaction("Alice", "David", 1000),
-        Transaction("Bob", "David", 1000))
+    println(transactionsList)
+    return transactionsList
+    // return transactionsList
 }
 
 
