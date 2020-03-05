@@ -1,6 +1,8 @@
 package imt3673.ass.groupexpenses
 
+import java.lang.NumberFormatException
 import java.util.*
+import kotlin.math.roundToLong
 
 /**
  * Keep all the package level functions and constants here.
@@ -228,14 +230,12 @@ fun convertAmountToString(amount: Long): String {
  */
 fun convertStringToAmount(value: String): Result<Long> {
 
-    // TODO implement the conversion from String to Amount
+    var convertedValue = value.replace(',', '.')
+    return try{
+        val f = convertedValue.toFloat()
+        Result.success((f * 100.0).roundToLong())
+    } catch(e: NumberFormatException) {
+        Result.failure(e)
+    }
 
-    if (value == "19.99") return Result.success(1999)
-    if (value == "19") return Result.success(1900)
-    if (value == "-4.20") return Result.success(-420)
-
-    if (value == "0.001") return Result.failure(Throwable("Too many decimal places."))
-    if (value == "test") return Result.failure(Throwable("Not a number"))
-
-    return Result.failure(Throwable("Method not implemented yet"))
 }
