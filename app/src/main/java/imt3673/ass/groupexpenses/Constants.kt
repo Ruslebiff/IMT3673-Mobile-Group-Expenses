@@ -198,8 +198,6 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
  * dot or comma, subject to the current locale used.
  */
 fun convertAmountToString(amount: Long): String {
-
-    println("\nAmount: " + amount)
     var stringAmount = amount.toString()
     when {
         stringAmount.length >= 3 -> {
@@ -220,18 +218,6 @@ fun convertAmountToString(amount: Long): String {
             stringAmount = stringAmount.reversed()
         }
     }
-
-    println("Stringamount: " + stringAmount)
-
-    // TODO implement the conversion from Amount
-    // that is of type Long to String
-    // The string should be formatted with 2 decimal places, with the locale-defined
-    // decimal point separator.
-
-    // Examples, with dot as decimal separator:
-    // 20 -> "0.20"
-    // 500 -> "5.00"
-    // 1234 -> "12.34"
 
     return stringAmount
 }
