@@ -59,14 +59,11 @@ fun sanitizeName(name: String): String {
  * Takes the Expenses instance, and produces a list of Transactions.
  */
 fun calculateSettlement(expenses: Expenses): List<Transaction> {
-    // TODO implement the logic
-
     var expensesList = expenses.allExpenses()
     if (expensesList.size < 2) return listOf()
 
-    var personsList = expensesList.map{it.person}
-    var transactionsList = mutableListOf<Transaction>()
-    var paidMap = mutableMapOf<String, Long>()
+    val transactionsList = mutableListOf<Transaction>()
+    val paidMap = mutableMapOf<String, Long>()
 
     var totalAmount: Long = 0
     val totalPersons = expensesList.size
@@ -76,17 +73,17 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
         paidMap[it.person] = it.amount
     }
 
-    var totalPerPerson = (totalAmount / totalPersons)
+    val totalPerPerson = (totalAmount / totalPersons)
 
 
     // What each person owes
-    var owesMap = mutableMapOf<String, Long>()
+    val owesMap = mutableMapOf<String, Long>()
     paidMap.forEach{
         owesMap[it.key] = (totalPerPerson.minus(it.value))
     }
 
-    var payMap = mutableMapOf<String, Long>()           // should pay receivers
-    var receiveMap = mutableMapOf<String, Long>()       // should receive payment from payers
+    val payMap = mutableMapOf<String, Long>()           // should pay receivers
+    val receiveMap = mutableMapOf<String, Long>()       // should receive payment from payers
 
     owesMap.forEach{
         if (it.value > 0L){         // person owes money to someone else
@@ -96,11 +93,8 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
         }
     }
 
-    println("Pay: " + payMap)
-    println("Receive: " + receiveMap)
-    println("\n")
-    var payIterator = payMap.iterator()
-    var receiveIterator = receiveMap.iterator()
+    val payIterator = payMap.iterator()
+    val receiveIterator = receiveMap.iterator()
     var receiverKey = receiveIterator.next().key
     var payerKey = payIterator.next().key
 
@@ -109,10 +103,10 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
         while(payMap[payerKey]!! > 0L){
             while (receiveMap.isNotEmpty()) {
                 if (receiveIterator.hasNext()){
-                    try{
-                        receiverKey = receiveIterator.next().key
+                    receiverKey = try{
+                        receiveIterator.next().key
                     } catch(e: ConcurrentModificationException){
-                        receiverKey = receiveMap.keys.first()
+                        receiveMap.keys.first()
                     }
                 }
                 if (receiveMap[receiverKey] == null){
@@ -120,42 +114,34 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                 }
 
                 if (payMap[payerKey] == receiveMap[receiverKey]){             // same amount
-                    println("=== Same Amount ===")
-
                     transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
                     payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
 
-                    var oldReceiverKey = receiverKey
+                    val oldReceiverKey = receiverKey
                     if (receiveIterator.hasNext()){
-                        try{
-                            receiverKey = receiveIterator.next().key
+                        receiverKey = try{
+                            receiveIterator.next().key
                         } catch(e: ConcurrentModificationException){
-                            receiverKey = receiveMap.keys.first()
+                            receiveMap.keys.first()
                         }
                     }
 
                     receiveMap.remove(oldReceiverKey)
-
                     break
                 } else if (receiveMap[receiverKey]!! > payMap[payerKey]!!) {      // receiver need more than payer has
-                    println("=== Receiver More Than Payer ===")
-
                     transactionsList.add(Transaction(payerKey, receiverKey, payMap[payerKey]!!))
                     receiveMap[receiverKey] = receiveMap[receiverKey]!!.minus(payMap[payerKey]!!)
                     payMap[payerKey] = payMap[payerKey]!!.minus(payMap[payerKey]!!)
-
                     break
                 } else if (receiveMap[receiverKey]!! < payMap[payerKey]!!){       // receiver need less than payer has
-                    println("=== Receiver Less Than Payer ===")
-
                     transactionsList.add(Transaction(payerKey, receiverKey, receiveMap[receiverKey]!!))
                     payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
-                    var oldReceiverKey = receiverKey
+                    val oldReceiverKey = receiverKey
                     if (receiveIterator.hasNext()){
-                        try{
-                            receiverKey = receiveIterator.next().key
+                        receiverKey = try{
+                            receiveIterator.next().key
                         } catch(e: ConcurrentModificationException){
-                            receiverKey = receiveMap.keys.first()
+                            receiveMap.keys.first()
                         }
                     }
                     receiveMap.remove(oldReceiverKey)
@@ -163,33 +149,14 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
             }
         }
 
-        var oldPayerKey = payerKey
         if (payIterator.hasNext()){
             payerKey = payIterator.next().key
         } else {
             break
         }
-
-
-        println("\npayMap now: " + payMap)
-        println("receiveMap now: " + receiveMap)
-        println("Trans list now: " + transactionsList +"\n")
     }
 
-//
-//     dummy implementation for a simple single case
-//     Alice -> 20
-//     Bob -> 20
-//     Charlie -> 30
-//     David -> 50
-
-    // Only one reasonable solution:
-    // Alice to David -> 10
-    // Bob to David -> 10
-
-    println(transactionsList)
     return transactionsList
-    // return transactionsList
 }
 
 
