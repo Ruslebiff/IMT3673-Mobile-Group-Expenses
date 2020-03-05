@@ -2,4 +2,17 @@
     <string name="app_name">Group Expenses</string>
     <string name="btn_add_data">Add Data</string>
     <string name="btn_settlement">Settlement</string>
+    <string name="avg_text">Average:</string>
+    <string name="default_amount">0.00</string>
+    <string name="total_expenses">Total:</string>
+    <string name="title_name">Name</string>
+    <string name="title_amount">Amount</string>
+    <string name="title_description">Description</string>
+    <string name="title_add_expense">Add Expense</string>
+    <string name="btn_add_expense">Add Expense</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="description_text">Description</string>
+
 </resources>

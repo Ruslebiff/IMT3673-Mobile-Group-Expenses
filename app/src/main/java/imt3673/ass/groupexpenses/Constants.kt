@@ -205,5 +205,4 @@ fun convertStringToAmount(value: String): Result<Long> {
     } catch(e: NumberFormatException) {
         Result.failure(e)
     }
-
 }

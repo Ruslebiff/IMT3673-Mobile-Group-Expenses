@@ -21,10 +21,16 @@ class FragMainActivity : Fragment(){
         super.onActivityCreated(savedInstanceState)
         val mA: MainActivity = activity as MainActivity
 
-        knapp.setOnClickListener{
+        btn_add_data.setOnClickListener{
+            val mA : MainActivity = activity as MainActivity
+            mA.showAddData()
+        }
+
+        btn_settlement.setOnClickListener{
             val mA : MainActivity = activity as MainActivity
             mA.showSettlement()
         }
+
 
     }
 }

@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     private val fragMain = FragMainActivity()
     private val fragSettlement = FragSettlement()
+    private val fragAddData = FragDataEntry()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().addToBackStack("settlement").replace(R.id.main_view, fragSettlement, "settlement").commit()
     }
 
+    fun showAddData() {
+        supportFragmentManager.beginTransaction().addToBackStack("data_entry").replace(R.id.main_view, fragAddData, "data_entry").commit()
+    }
 
 
 }
