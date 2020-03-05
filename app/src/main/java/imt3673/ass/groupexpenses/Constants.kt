@@ -203,12 +203,14 @@ fun convertAmountToString(amount: Long): String {
     var stringAmount = amount.toString()
     when {
         stringAmount.length >= 3 -> {
+            // reverse it, add a comma at place 2, reverse it back
             stringAmount = stringAmount.reversed()
             stringAmount = StringBuilder(stringAmount).insert(2, ',').toString()
             stringAmount = stringAmount.reversed()
         }
         stringAmount.length == 2 -> {
             stringAmount = if (stringAmount.startsWith('-')){
+                // Same as if length == 1, but with a dash in front
                 java.lang.StringBuilder(stringAmount).insert(1, "0,0").toString()
             } else {
                 java.lang.StringBuilder(stringAmount).insert(0, "0,").toString()
