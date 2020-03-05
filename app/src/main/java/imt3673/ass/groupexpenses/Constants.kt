@@ -119,7 +119,7 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
 
                 if (receiveMap[receiverKey] == null){
                     println("ReceiverKey NULL!")
-
+                    receiverKey = receiveMap.keys.first()
                     println("new receiverkey = " + receiverKey)
                 }
 
@@ -133,7 +133,7 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                     if (receiveIterator.hasNext()){
                         receiverKey = receiveIterator.next().key
                     }
-                    //receiveMap.remove(oldReceiverKey)
+                    receiveMap.remove(oldReceiverKey)
 
                     break
                 } else if (receiveMap[receiverKey]!! > payMap[payerKey]!!) {      // receiver need more than payer has
@@ -154,6 +154,7 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                     if (receiveIterator.hasNext()){
                         receiverKey = receiveIterator.next().key
                     }
+                    receiveMap.remove(oldReceiverKey)
 
                     println("\nEND")
                     println("NEW receiver key = " + receiverKey)
