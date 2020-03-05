@@ -2,6 +2,7 @@ package imt3673.ass.groupexpenses
 
 import java.lang.NumberFormatException
 import java.util.*
+import kotlin.ConcurrentModificationException
 import kotlin.math.roundToLong
 
 /**
@@ -103,24 +104,19 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
     var receiverKey = receiveIterator.next().key
     var payerKey = payIterator.next().key
 
+
     while (payMap.isNotEmpty()){
         while(payMap[payerKey]!! > 0L){
             while (receiveMap.isNotEmpty()) {
                 if (receiveIterator.hasNext()){
-                    receiverKey = receiveIterator.next().key
+                    try{
+                        receiverKey = receiveIterator.next().key
+                    } catch(e: ConcurrentModificationException){
+                        receiverKey = receiveMap.keys.first()
+                    }
                 }
-                println("ReceiverKey: " + receiverKey)
-
-                println("\n\nREC: " + receiveMap)
-                println("PAY: " + payMap + "\n\n")
-                println("receiverKey = " + receiverKey)
-                println("receiveMap[receiverKey] =" + receiveMap[receiverKey])
-                println("payMap[payerKey] =" + payMap[payerKey])
-
                 if (receiveMap[receiverKey] == null){
-                    println("ReceiverKey NULL!")
                     receiverKey = receiveMap.keys.first()
-                    println("new receiverkey = " + receiverKey)
                 }
 
                 if (payMap[payerKey] == receiveMap[receiverKey]){             // same amount
@@ -131,8 +127,13 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
 
                     var oldReceiverKey = receiverKey
                     if (receiveIterator.hasNext()){
-                        receiverKey = receiveIterator.next().key
+                        try{
+                            receiverKey = receiveIterator.next().key
+                        } catch(e: ConcurrentModificationException){
+                            receiverKey = receiveMap.keys.first()
+                        }
                     }
+
                     receiveMap.remove(oldReceiverKey)
 
                     break
@@ -143,7 +144,6 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                     receiveMap[receiverKey] = receiveMap[receiverKey]!!.minus(payMap[payerKey]!!)
                     payMap[payerKey] = payMap[payerKey]!!.minus(payMap[payerKey]!!)
 
-
                     break
                 } else if (receiveMap[receiverKey]!! < payMap[payerKey]!!){       // receiver need less than payer has
                     println("=== Receiver Less Than Payer ===")
@@ -152,18 +152,13 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                     payMap[payerKey] = payMap[payerKey]!!.minus(receiveMap[receiverKey]!!)
                     var oldReceiverKey = receiverKey
                     if (receiveIterator.hasNext()){
-                        receiverKey = receiveIterator.next().key
+                        try{
+                            receiverKey = receiveIterator.next().key
+                        } catch(e: ConcurrentModificationException){
+                            receiverKey = receiveMap.keys.first()
+                        }
                     }
                     receiveMap.remove(oldReceiverKey)
-
-                    println("\nEND")
-                    println("NEW receiver key = " + receiverKey)
-                    println("PAYMAP " + payMap)
-                    println("RECMAP " + receiveMap)
-                    break
-                } else {
-                    println("N O T H I N G    F I T S")
-                    break
                 }
             }
         }
@@ -171,8 +166,10 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
         var oldPayerKey = payerKey
         if (payIterator.hasNext()){
             payerKey = payIterator.next().key
+        } else {
+            break
         }
-        payMap.remove(oldPayerKey)
+
 
         println("\npayMap now: " + payMap)
         println("receiveMap now: " + receiveMap)
@@ -189,6 +186,7 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
     // Only one reasonable solution:
     // Alice to David -> 10
     // Bob to David -> 10
+
     println(transactionsList)
     return transactionsList
     // return transactionsList
