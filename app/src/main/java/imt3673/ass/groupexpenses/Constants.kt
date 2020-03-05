@@ -105,8 +105,8 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
                 if (receiveIterator.hasNext()){
                     receiverKey = try{
                         receiveIterator.next().key
-                    } catch(e: ConcurrentModificationException){
-                        receiveMap.keys.first()
+                    } catch(e: ConcurrentModificationException){    // receiveIterator.next is null
+                        receiveMap.keys.first()                     // set key to the only remaining
                     }
                 }
                 if (receiveMap[receiverKey] == null){
