@@ -199,6 +199,30 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
  */
 fun convertAmountToString(amount: Long): String {
 
+    println("\nAmount: " + amount)
+    var stringAmount = amount.toString()
+    when {
+        stringAmount.length >= 3 -> {
+            stringAmount = stringAmount.reversed()
+            stringAmount = StringBuilder(stringAmount).insert(2, ',').toString()
+            stringAmount = stringAmount.reversed()
+        }
+        stringAmount.length == 2 -> {
+            stringAmount = if (stringAmount.startsWith('-')){
+                java.lang.StringBuilder(stringAmount).insert(1, "0,0").toString()
+            } else {
+                java.lang.StringBuilder(stringAmount).insert(0, "0,").toString()
+            }
+        }
+        else -> {
+            stringAmount = stringAmount.reversed()
+            stringAmount = java.lang.StringBuilder(stringAmount).append("0,0").toString()
+            stringAmount = stringAmount.reversed()
+        }
+    }
+
+    println("Stringamount: " + stringAmount)
+
     // TODO implement the conversion from Amount
     // that is of type Long to String
     // The string should be formatted with 2 decimal places, with the locale-defined
@@ -209,7 +233,7 @@ fun convertAmountToString(amount: Long): String {
     // 500 -> "5.00"
     // 1234 -> "12.34"
 
-    return if (amount == 420L) "4.20" else "0.00"
+    return stringAmount
 }
 
 /**
