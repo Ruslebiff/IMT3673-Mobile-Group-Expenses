@@ -9,6 +9,11 @@ class MainActivity : AppCompatActivity() {
     val expenses: Expenses = Expenses()
     var settlement = listOf<Transaction>()
 
+
+    private val fragMain = FragMainActivity()
+    private val fragSettlement = FragSettlement()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,7 +28,11 @@ class MainActivity : AppCompatActivity() {
 
     // TODO implement setupUI method
     private fun setupUI() {
+        supportFragmentManager.beginTransaction().add(R.id.main_view, fragMain, "main").commit()
+    }
 
+    fun showSettlement() {
+        supportFragmentManager.beginTransaction().addToBackStack("settlement").replace(R.id.main_view, fragSettlement, "settlement").commit()
     }
 
 
