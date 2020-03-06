@@ -1,6 +1,7 @@
 package imt3673.ass.groupexpenses
 
 import java.lang.NumberFormatException
+import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.ConcurrentModificationException
 import kotlin.math.roundToLong
@@ -167,24 +168,26 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
  */
 fun convertAmountToString(amount: Long): String {
     var stringAmount = amount.toString()
+    val dot: Char = DecimalFormatSymbols.getInstance().decimalSeparator
+
     when {
         stringAmount.length >= 3 -> {
             // reverse it, add a comma at place 2, reverse it back
             stringAmount = stringAmount.reversed()
-            stringAmount = StringBuilder(stringAmount).insert(2, ',').toString()
+            stringAmount = StringBuilder(stringAmount).insert(2, "$dot").toString()
             stringAmount = stringAmount.reversed()
         }
         stringAmount.length == 2 -> {
             stringAmount = if (stringAmount.startsWith('-')){
                 // Same as if length == 1, but with a dash in front
-                java.lang.StringBuilder(stringAmount).insert(1, "0,0").toString()
+                java.lang.StringBuilder(stringAmount).insert(1, "0${dot}0").toString()
             } else {
-                java.lang.StringBuilder(stringAmount).insert(0, "0,").toString()
+                java.lang.StringBuilder(stringAmount).insert(0, "0${dot}").toString()
             }
         }
         else -> {
             stringAmount = stringAmount.reversed()
-            stringAmount = java.lang.StringBuilder(stringAmount).append("0,0").toString()
+            stringAmount = java.lang.StringBuilder(stringAmount).append("0${dot}0").toString()
             stringAmount = stringAmount.reversed()
         }
     }
