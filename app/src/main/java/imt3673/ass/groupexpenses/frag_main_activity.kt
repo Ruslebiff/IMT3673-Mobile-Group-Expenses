@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_activity_main.*
+import kotlinx.android.synthetic.main.remove_me.*
 
 class FragMainActivity : Fragment(){
     override fun onCreateView(
@@ -32,6 +36,29 @@ class FragMainActivity : Fragment(){
             mA.showSettlement()
         }
 
+        showRows()
+    }
 
+    private fun showRows(){
+        val mA : MainActivity = activity as MainActivity
+        mA.expenses.allExpenses().forEach{
+            val row = TableRow(context)
+            row.layoutParams = TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT)
+
+            val name = TextView(context)
+            name.text = it.person
+
+            val amount = TextView(context)
+            amount.text = convertAmountToString(it.amount)
+
+            val description = TextView(context)
+            description.text = it.description
+
+            row.addView(name)
+            row.addView(amount)
+            row.addView(description)
+
+            table_expenses.addView(row)
+        }
     }
 }

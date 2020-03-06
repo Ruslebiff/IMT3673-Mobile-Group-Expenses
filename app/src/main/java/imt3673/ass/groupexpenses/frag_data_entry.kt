@@ -39,6 +39,8 @@ class FragDataEntry : Fragment(){
             val mA : MainActivity = activity as MainActivity
 
             // TODO: save edit_person, edit_amount, edit_description
+            // add data fields to
+            mA.expenses.add(SingleExpense(edit_person.text.toString(), convertStringToAmount(edit_amount.text.toString()).getOrDefault(0), edit_description.text.toString()))
 
             edit_person.text!!.clear()
             edit_amount.text!!.clear()
