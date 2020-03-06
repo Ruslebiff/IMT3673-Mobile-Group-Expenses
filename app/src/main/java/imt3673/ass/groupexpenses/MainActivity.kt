@@ -19,12 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var fragment = when(fragName){
-            "main"  -> fragMain
-            "data_entry"  -> fragAddData
-            "settlement"  -> fragSettlement
-            else          -> fragMain
-        }
 
         when (savedInstanceState) {
             null -> setupUI()
@@ -32,12 +26,19 @@ class MainActivity : AppCompatActivity() {
                 val savedList = savedInstanceState.getParcelable<Expenses>("expenses")
                 fragName = savedInstanceState.getString("fragment").toString()
 
+                var fragment = when(fragName){
+                    "main"  -> fragMain
+                    "data_entry"  -> fragAddData
+                    "settlement"  -> fragSettlement
+                    else          -> fragMain
+                }
+
                 // Restore the list into expenses
                 savedList!!.allExpenses().forEach{
                     expenses.add(SingleExpense(it.person,it.amount,it.description))
                 }
 
-                supportFragmentManager.beginTransaction().add(R.id.main_view, fragment).commit()
+                supportFragmentManager.getFragment(savedInstanceState, fragName)
             }
         }
     }
