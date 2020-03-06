@@ -36,24 +36,26 @@ class FragSettlement : Fragment(){
         val mA : MainActivity = activity as MainActivity
         val settlementList = calculateSettlement(mA.expenses)
 
-        settlementList.forEach{
-            val row = TableRow(context)
-            row.layoutParams = TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT)
+        if (settlementList.isNotEmpty()){   // prevent crash if settlement list should be empty
+            settlementList.forEach{
+                val row = TableRow(context)
+                row.layoutParams = TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT)
 
-            val payer = TextView(context)
-            payer.text = it.payer
+                val payer = TextView(context)
+                payer.text = it.payer
 
-            val payee = TextView(context)
-            payee.text = it.payee
+                val payee = TextView(context)
+                payee.text = it.payee
 
-            val amount = TextView(context)
-            amount.text = convertAmountToString(it.amount)
+                val amount = TextView(context)
+                amount.text = convertAmountToString(it.amount)
 
-            row.addView(payer)
-            row.addView(payee)
-            row.addView(amount)
+                row.addView(payer)
+                row.addView(payee)
+                row.addView(amount)
 
-            table_settlements.addView(row)
+                table_settlements.addView(row)
+            }
         }
     }
 }
