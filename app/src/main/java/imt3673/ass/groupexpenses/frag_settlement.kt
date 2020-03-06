@@ -54,7 +54,7 @@ class FragSettlement : Fragment(){
                 row.addView(payee)
                 row.addView(amount)
 
-                table_settlements.addView(row)
+                tbl_settlements.addView(row)
             }
         }
     }

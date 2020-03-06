@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="45dp"
-            android:text="Payer"
+            android:text="@string/title_payer"
             android:textStyle="bold" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="45dp"
-            android:text="Payee"
+            android:text="@string/title_payee"
             android:textStyle="bold" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="45dp"
-            android:text="Amount"
+            android:text="@string/title_amount"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -71,7 +71,7 @@
         <TableLayout
             android:stretchColumns="0,1,2"
             android:paddingStart="60dp"
-            android:id="@+id/table_settlements"
+            android:id="@+id/tbl_settlements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
