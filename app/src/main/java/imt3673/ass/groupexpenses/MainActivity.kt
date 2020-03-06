@@ -1,10 +1,8 @@
 package imt3673.ass.groupexpenses
 
-import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.frag_activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,8 +27,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         when (savedInstanceState) {
-            null -> supportFragmentManager.beginTransaction().add(R.id.main_view, fragment).commit()
-            else -> setupUI()
+            null -> setupUI()
+            else -> { // Populate the expenses again and resume correct fragment
+                val savedList = savedInstanceState.getParcelable<Expenses>("expenses")
+                fragName = savedInstanceState.getString("fragment").toString()
+
+                // Restore the list into expenses
+                savedList!!.allExpenses().forEach{
+                    expenses.add(SingleExpense(it.person,it.amount,it.description))
+                }
+
+                supportFragmentManager.beginTransaction().add(R.id.main_view, fragment).commit()
+            }
         }
     }
 
@@ -41,17 +49,6 @@ class MainActivity : AppCompatActivity() {
         outState.putString("fragment", fragName)
     }
 
-    // Populate the expenses again and resume correct fragment
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val savedList = savedInstanceState.getParcelable<Expenses>("expenses")
-        fragName = savedInstanceState.getString("fragment").toString()
-
-        // Restore the list into expenses
-        savedList!!.allExpenses().forEach{
-            expenses.add(SingleExpense(it.person,it.amount,it.description))
-        }
-    }
 
     private fun setupUI() {
         supportFragmentManager.beginTransaction().add(R.id.main_view, fragMain, "main").commit()
