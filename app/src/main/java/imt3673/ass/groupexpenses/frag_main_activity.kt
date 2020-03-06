@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_activity_main.*
+import kotlinx.android.synthetic.main.frag_data_entry.*
 import kotlinx.android.synthetic.main.remove_me.*
+import kotlinx.android.synthetic.main.remove_me.btn_add_expense
 
 class FragMainActivity : Fragment(){
     override fun onCreateView(
@@ -30,7 +32,6 @@ class FragMainActivity : Fragment(){
             mA.showAddData()
         }
 
-        // TODO: settlement button should be disabled if no data is saved
         btn_settlement.setOnClickListener{
             val mA : MainActivity = activity as MainActivity
             mA.showSettlement()
@@ -59,6 +60,11 @@ class FragMainActivity : Fragment(){
             row.addView(description)
 
             table_expenses.addView(row)
+        }
+
+        if (mA.expenses.allExpenses().size > 1){
+            btn_settlement.isClickable = true
+            btn_settlement.isEnabled = true
         }
     }
 }
