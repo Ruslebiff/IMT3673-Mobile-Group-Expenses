@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="412dp"
-        android:layout_height="600dp"
+        android:layout_height="400dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingTop="20dp"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="250dp">
+            android:paddingTop="25dp">
 
 
 

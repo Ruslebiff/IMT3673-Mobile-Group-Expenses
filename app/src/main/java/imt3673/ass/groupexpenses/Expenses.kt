@@ -1,14 +1,19 @@
 package imt3673.ass.groupexpenses
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import kotlin.math.exp
 
 /**
  * Represents all the expenses of the group of people.
  */
-class Expenses {
+@Parcelize
+class Expenses() : Parcelable {
 
     // NOTE: Expenses MUST have a default, non-argument constructor.
     private val listOfExpenses = mutableListOf<SingleExpense>()
+
 
     // Adds new expense to the expenses list.
     // If the Person does not exist in the expenses,

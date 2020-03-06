@@ -24,6 +24,7 @@ class FragMainActivity : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val mA: MainActivity = activity as MainActivity
+        mA.fragName = "main"
 
         btn_add_data.setOnClickListener{
             val mA : MainActivity = activity as MainActivity
