@@ -35,7 +35,7 @@ class FragSettlement : Fragment(){
     private fun showSettlement(){
         val mA : MainActivity = activity as MainActivity
         val settlementList = calculateSettlement(mA.expenses)
-        
+
         settlementList.forEach{
             val row = TableRow(context)
             row.layoutParams = TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT)

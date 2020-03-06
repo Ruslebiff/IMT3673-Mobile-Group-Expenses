@@ -39,37 +39,41 @@
             android:id="@+id/payer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:text="Payer" />
+            android:layout_marginHorizontal="45dp"
+            android:text="Payer"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/payee"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:text="Payee" />
+            android:layout_marginHorizontal="45dp"
+            android:text="Payee"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:text="Amount" />
+            android:layout_marginHorizontal="45dp"
+            android:text="Amount"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TableLayout
+            android:stretchColumns="0,1,2"
+            android:paddingStart="60dp"
             android:id="@+id/table_settlements"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/lightGrey">
+            android:layout_height="wrap_content">
 
         </TableLayout>
 
