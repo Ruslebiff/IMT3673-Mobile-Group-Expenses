@@ -107,9 +107,10 @@ class FragDataEntry : Fragment(){
             txt_add_expenses_error.visibility=View.INVISIBLE
 
 
-            // TODO: change color of button when it is enabled/disabled
+
 
         } else {
+            // TODO: change color of button when it is enabled/disabled
             // TODO: Fix dynamic error message.
             if(!nameOk){
                 errorString = "Name not ok"
@@ -125,6 +126,9 @@ class FragDataEntry : Fragment(){
 
             txt_add_expenses_error.text = errorString
             txt_add_expenses_error.visibility=View.VISIBLE
+
+            btn_add_expense.isClickable = false
+            btn_add_expense.isEnabled = false
         }
     }
 

@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/title">
 
             <TableLayout
-                android:id="@+id/table_expenses"
+                android:id="@+id/tbl_expenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="0,1,2">

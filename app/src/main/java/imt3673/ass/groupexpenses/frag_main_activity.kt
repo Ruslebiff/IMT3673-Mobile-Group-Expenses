@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_activity_main.*
 import kotlinx.android.synthetic.main.frag_data_entry.*
-import kotlinx.android.synthetic.main.remove_me.*
-import kotlinx.android.synthetic.main.remove_me.btn_add_expense
 
 class FragMainActivity : Fragment(){
     override fun onCreateView(
@@ -59,7 +57,7 @@ class FragMainActivity : Fragment(){
             row.addView(amount)
             row.addView(description)
 
-            table_expenses.addView(row)
+            tbl_expenses.addView(row)
         }
 
         if (mA.expenses.allExpenses().size > 1){
