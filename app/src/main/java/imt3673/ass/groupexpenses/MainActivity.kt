@@ -8,6 +8,7 @@ class MainActivity : AppCompatActivity() {
     // The storage for all expenses
     val expenses: Expenses = Expenses()
     var settlement = listOf<Transaction>()
+    var fragName = ""
 
 
     private val fragMain = FragMainActivity()
@@ -15,11 +16,21 @@ class MainActivity : AppCompatActivity() {
     private val fragAddData = FragDataEntry()
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var fragment = when(fragName){
+            "main"  -> fragMain
+            "data_entry"  -> fragAddData
+            "settlement"  -> fragSettlement
+            else          -> fragMain
+        }
 
-        setupUI()
+        when (savedInstanceState) {
+            null -> supportFragmentManager.beginTransaction().add(R.id.main_view, fragment).commit()
+            else -> setupUI()
+        }
     }
 
     // implements the settlement calculation and keeps it in this.settlement
@@ -27,7 +38,8 @@ class MainActivity : AppCompatActivity() {
         this.settlement = calculateSettlement(this.expenses)
     }
 
-    // TODO implement setupUI method
+
+
     private fun setupUI() {
         supportFragmentManager.beginTransaction().add(R.id.main_view, fragMain, "main").commit()
     }
@@ -39,6 +51,5 @@ class MainActivity : AppCompatActivity() {
     fun showAddData() {
         supportFragmentManager.beginTransaction().addToBackStack("data_entry").replace(R.id.main_view, fragAddData, "data_entry").commit()
     }
-
 
 }

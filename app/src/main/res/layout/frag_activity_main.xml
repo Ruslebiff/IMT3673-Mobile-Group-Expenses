@@ -90,7 +90,7 @@
             </TableLayout>
         </ScrollView>
     <LinearLayout
-        android:id="@+id/kkkk"
+        android:id="@+id/totalAndAverage"
         android:layout_width="415dp"
         android:layout_height="100dp"
         android:orientation="vertical"

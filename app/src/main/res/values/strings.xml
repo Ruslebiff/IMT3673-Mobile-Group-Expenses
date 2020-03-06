@@ -9,6 +9,7 @@
     <string name="title_amount">Amount</string>
     <string name="title_description">Description</string>
     <string name="title_add_expense">Add Expense</string>
+    <string name="title_settlement">Settlement</string>
     <string name="btn_add_expense">Add Expense</string>
     <string name="btn_cancel">Cancel</string>
     <string name="name">Name</string>

@@ -26,6 +26,7 @@ class FragMainActivity : Fragment(){
             mA.showAddData()
         }
 
+        // TODO: settlement button should be disabled if no data is saved
         btn_settlement.setOnClickListener{
             val mA : MainActivity = activity as MainActivity
             mA.showSettlement()
