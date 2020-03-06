@@ -17,5 +17,5 @@
     <string name="name">Name</string>
     <string name="amount">Amount (allowed: 0–9 and "," or ".")</string>
     <string name="description_text">Description</string>
-
+    <string name="add_data_fields_error">Error: Missing or invalid input in data fields</string>
 </resources>

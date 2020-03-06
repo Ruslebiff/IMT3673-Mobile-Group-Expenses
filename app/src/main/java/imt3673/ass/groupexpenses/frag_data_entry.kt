@@ -1,5 +1,6 @@
 package imt3673.ass.groupexpenses
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,8 +12,6 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_data_entry.*
 
 class FragDataEntry : Fragment(){
-    private var errorString = "Error in data input: "
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,6 +26,8 @@ class FragDataEntry : Fragment(){
         mA.fragName = "data_entry"
         setUpTextListeners()
 
+        btn_add_expense.isEnabled = false
+
         // Cancel
         btn_cancel.setOnClickListener(){
             edit_person.text!!.clear()
@@ -40,9 +41,7 @@ class FragDataEntry : Fragment(){
         btn_add_expense.setOnClickListener(){
             val mA : MainActivity = activity as MainActivity
 
-            // TODO: save edit_person, edit_amount, edit_description
-            // add data fields to
-
+            // add data fields to expenses
             mA.expenses.add(SingleExpense(sanitizeName(edit_person.text.toString()), convertStringToAmount(edit_amount.text.toString()).getOrDefault(0), edit_description.text.toString()))
 
             edit_person.text!!.clear()
@@ -51,7 +50,6 @@ class FragDataEntry : Fragment(){
             mA.supportFragmentManager.findFragmentByTag("main")
             mA.supportFragmentManager.popBackStack()
         }
-
     }
 
     // Text field listeners
@@ -101,33 +99,13 @@ class FragDataEntry : Fragment(){
             }
         }
 
-
         if (nameOk && amountOk && fieldsAreFilled()){
             btn_add_expense.isClickable = true
             btn_add_expense.isEnabled = true
             txt_add_expenses_error.visibility=View.INVISIBLE
 
-
-
-
         } else {
-            // TODO: change color of button when it is enabled/disabled
-            // TODO: Fix dynamic error message.
-            if(!nameOk){
-                errorString = "Name not ok"
-            }
-
-            if(!amountOk){
-                errorString.plus("Amount not ok")
-            }
-
-            if(!fieldsAreFilled()){
-                errorString.plus("You must fill all fields")
-            }
-
-            txt_add_expenses_error.text = errorString
             txt_add_expenses_error.visibility=View.VISIBLE
-
             btn_add_expense.isClickable = false
             btn_add_expense.isEnabled = false
         }
@@ -139,8 +117,5 @@ class FragDataEntry : Fragment(){
                 && edit_amount.text!!.toString() != ""
                 && edit_description.text!!.toString() != "")
     }
-
-
-
 }
 

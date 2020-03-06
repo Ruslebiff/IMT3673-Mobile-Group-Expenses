@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:id="@+id/txt_add_expenses_error"
-            android:text=""
+            android:text="@string/add_data_fields_error"
             android:textColor="#FF0000"
             android:visibility="invisible"/>
 
