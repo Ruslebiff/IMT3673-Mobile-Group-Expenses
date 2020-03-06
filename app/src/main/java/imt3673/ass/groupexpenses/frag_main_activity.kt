@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.frag_activity_main.*
 import kotlinx.android.synthetic.main.frag_data_entry.*
 
 class FragMainActivity : Fragment(){
+    var settlementIsNull = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +38,7 @@ class FragMainActivity : Fragment(){
             mA.showSettlement()
         }
 
+        // Show all expense rows
         showRows()
 
         // update total and average
@@ -52,10 +55,20 @@ class FragMainActivity : Fragment(){
         if (persons.equals(0)){
             persons = 1
         }
-        val divider = total / persons
+        val average = total / persons
+
+        var settlementList = calculateSettlement(mA.expenses)
+        if (settlementList.isNotEmpty()){
+            settlementIsNull = false
+        }
+
+        if (mA.expenses.allExpenses().size > 1 && !settlementIsNull) {
+            btn_settlement.isClickable = true
+            btn_settlement.isEnabled = true
+        }
 
         txt_expenses_total.text = convertAmountToString(total)
-        txt_expenses_avr.text = convertAmountToString(divider)
+        txt_expenses_avr.text = convertAmountToString(average)
     }
 
     private fun showRows(){
@@ -79,10 +92,6 @@ class FragMainActivity : Fragment(){
 
             tbl_expenses.addView(row)
         }
-
-        if (mA.expenses.allExpenses().size > 1){
-            btn_settlement.isClickable = true
-            btn_settlement.isEnabled = true
-        }
     }
+
 }

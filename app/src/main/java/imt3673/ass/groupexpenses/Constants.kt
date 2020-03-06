@@ -96,7 +96,13 @@ fun calculateSettlement(expenses: Expenses): List<Transaction> {
 
     val payIterator = payMap.iterator()
     val receiveIterator = receiveMap.iterator()
-    var receiverKey = receiveIterator.next().key
+    var receiverKey = ""
+    if (receiveIterator.hasNext()){
+        var receiverKey = receiveIterator.next().key
+    } else {
+        return listOf()
+    }
+    
     var payerKey = payIterator.next().key
 
 
