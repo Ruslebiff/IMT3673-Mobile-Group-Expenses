@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_data_entry.*
 
@@ -83,18 +84,28 @@ class FragDataEntry : Fragment(){
 
     // Checks if text fields are filled, enable btn_add_expense
     private fun checkText(){
-        val nameOk: Boolean = edit_person.text.toString().matches(Regex(pattern = "[A-Za-z \\-]+"))
-        var amountOk = false
-        edit_amount.text!!.forEach { it.isDigit() || it.equals(",") || it.equals(".") }
 
-        // loop through characters in amount and check if they are valid. I
-        for (character in edit_amount.text.toString()) {
-            if (character.isDigit() || character.equals(",") || character.equals(".")) amountOk = true
+        val nameOk: Boolean = edit_person.text.toString().matches(Regex(pattern = "[A-Za-z \\-]+"))
+        var amountOk: Boolean = edit_amount.text.toString().matches(Regex(pattern = "[/^(\\d+(?:[\\.\\,]\\d{2})?)\$/]+"))
+        var commas = 0
+        edit_amount.text.toString().forEach {
+            if (it.equals(".") || it.equals(",")){
+                commas++
+            }
+        }
+
+        when {      // disable button if multiple commas or dots are written in amount field
+            commas > 1 -> {
+                amountOk = false
+            }
         }
 
         if (nameOk && amountOk && fieldsAreFilled()){
             btn_add_expense.isClickable = true
             btn_add_expense.isEnabled = true
+
+            // TODO: change color of button when it is enabled/disabled
+
         }
     }
 

@@ -13,7 +13,7 @@
     <string name="btn_add_expense">Add Expense</string>
     <string name="btn_cancel">Cancel</string>
     <string name="name">Name</string>
-    <string name="amount">Amount</string>
+    <string name="amount">Amount (allowed: 0–9 and "," or ".")</string>
     <string name="description_text">Description</string>
 
 </resources>
