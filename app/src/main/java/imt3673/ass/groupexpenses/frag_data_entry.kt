@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.frag_data_entry.*
 
 class FragDataEntry : Fragment(){
+    private var errorString = "Error in data input: "
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,7 +85,6 @@ class FragDataEntry : Fragment(){
 
     // Checks if text fields are filled, enable btn_add_expense
     private fun checkText(){
-
         val nameOk: Boolean = edit_person.text.toString().matches(Regex(pattern = "[A-Za-z \\-]+"))
         var amountOk: Boolean = edit_amount.text.toString().matches(Regex(pattern = "[/^(\\d+(?:[\\.\\,]\\d{2})?)\$/]+"))
         var commas = 0
@@ -100,12 +100,31 @@ class FragDataEntry : Fragment(){
             }
         }
 
+
         if (nameOk && amountOk && fieldsAreFilled()){
             btn_add_expense.isClickable = true
             btn_add_expense.isEnabled = true
+            txt_add_expenses_error.visibility=View.INVISIBLE
+
 
             // TODO: change color of button when it is enabled/disabled
 
+        } else {
+            // TODO: Fix dynamic error message.
+            if(!nameOk){
+                errorString = "Name not ok"
+            }
+
+            if(!amountOk){
+                errorString.plus("Amount not ok")
+            }
+
+            if(!fieldsAreFilled()){
+                errorString.plus("You must fill all fields")
+            }
+
+            txt_add_expenses_error.text = errorString
+            txt_add_expenses_error.visibility=View.VISIBLE
         }
     }
 
