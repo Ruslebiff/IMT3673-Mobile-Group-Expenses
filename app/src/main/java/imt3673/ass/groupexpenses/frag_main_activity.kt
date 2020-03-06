@@ -37,6 +37,25 @@ class FragMainActivity : Fragment(){
         }
 
         showRows()
+
+        // update total and average
+        var total: Long = 0L
+        var persons = 0
+        var personList = mutableListOf<String>()
+        mA.expenses.allExpenses().forEach{
+            total+=it.amount
+            if (!personList.contains(it.person)){
+                personList.add(it.person)
+                persons++
+            }
+        }
+        if (persons.equals(0)){
+            persons = 1
+        }
+        val divider = total / persons
+
+        txt_expenses_total.text = convertAmountToString(total)
+        txt_expenses_avr.text = convertAmountToString(divider)
     }
 
     private fun showRows(){
